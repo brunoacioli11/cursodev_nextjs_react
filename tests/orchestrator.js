@@ -1,5 +1,4 @@
 import retry from "async-retry"
-import { error } from "node:console";
 
 async function waitForAllServices() {
   await waitForWebServer();
