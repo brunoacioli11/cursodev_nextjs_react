@@ -1,4 +1,4 @@
-import retry from "async-retry"
+import retry from "async-retry";
 
 async function waitForAllServices() {
   await waitForWebServer();
@@ -15,12 +15,10 @@ async function waitForAllServices() {
       if (response.status !== 200) {
         throw Error();
       }
-
     }
   }
-
 }
 
 export default {
   waitForAllServices,
-}
+};
