@@ -5,9 +5,9 @@ import database from "infra/database";
 const defaultMigrationOptions = {
   dir: join("infra", "migrations"),
   direction: "up",
-  migrationsTable: "teste",
+  migrationsTable: "pgmigrations",
   dryRun: true,
-  verbose: true,
+  log: () => {},
 };
 
 async function listPendingMigrations() {
