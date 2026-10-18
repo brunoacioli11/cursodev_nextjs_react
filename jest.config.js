@@ -8,4 +8,11 @@ const jestConfig = createJestConfig({
   testTimeout: 60000,
 });
 
-module.exports = jestConfig;
+module.exports = async () => {
+  const config = await jestConfig();
+  config.transformIgnorePatterns = [
+    "/node_modules/(?!node-pg-migrate/)",
+    "^.+\\.module\\.(css|sass|scss)$",
+  ];
+  return config;
+};
