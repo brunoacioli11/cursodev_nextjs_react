@@ -1,6 +1,3 @@
-import { unique } from "next/dist/build/utils";
-import { password } from "pg/lib/defaults";
-
 export const up = (pgm) => {
   pgm.createTable("users", {
     id: {
