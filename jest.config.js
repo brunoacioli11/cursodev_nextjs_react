@@ -11,7 +11,7 @@ const jestConfig = createJestConfig({
 module.exports = async () => {
   const config = await jestConfig();
   config.transformIgnorePatterns = [
-    "/node_modules/(?!node-pg-migrate/)",
+    "/node_modules/(?!(node-pg-migrate|uuid)/)",
     "^.+\\.module\\.(css|sass|scss)$",
   ];
   return config;
