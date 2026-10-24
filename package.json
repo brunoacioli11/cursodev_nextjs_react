@@ -53,7 +53,7 @@
     "prettier": "3.9.10",
     "secretlint": "13.0.7",
     "tailwindcss": "4",
-    "typescript": "7"
+    "typescript": "~6.0.3"
   },
   "config": {
     "commitizen": {

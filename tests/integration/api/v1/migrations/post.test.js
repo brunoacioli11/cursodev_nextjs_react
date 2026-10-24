@@ -1,5 +1,5 @@
 import { describe } from "node:test";
-import orchestrator from "tests/orchestrator.js";
+import orchestrator from "@/tests/orchestrator.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();

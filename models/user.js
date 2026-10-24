@@ -1,5 +1,5 @@
-import database from "infra/database";
-import { ValidationError } from "infra/errors";
+import database from "@/infra/database";
+import { ValidationError } from "@/infra/errors";
 async function create(userInputValues) {
   await validateUniqueUsername(userInputValues.username);
   await validateUniqueEmail(userInputValues.email);
