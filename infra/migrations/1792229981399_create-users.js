@@ -19,21 +19,23 @@ export const up = (pgm) => {
       unique: true,
     },
 
-    // 72 characters because the hash function is limited to 72 bytes password
+    // 60 characters because the hash function is limited to 60 bytes password. https://www.npmjs.com/package/bcrypt#hash-info
     password: {
-      type: "varchar(72)",
+      type: "varchar(60)",
       notNull: true,
     },
 
     // timestamp with timezone
     created_at: {
       type: "timestamptz",
-      default: pgm.func("now()"),
+      default: pgm.func("timezone('utc', now())"),
+      notNull: true,
     },
 
     updated_at: {
       type: "timestamptz",
-      default: pgm.func("now()"),
+      default: pgm.func("timezone('utc', now())"),
+      notNull: true,
     },
   });
 };
