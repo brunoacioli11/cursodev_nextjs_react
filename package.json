@@ -37,6 +37,7 @@
   "devDependencies": {
     "@commitlint/cli": "21.2.4",
     "@commitlint/config-conventional": "21.2.4",
+    "@faker-js/faker": "^10.6.0",
     "@secretlint/secretlint-rule-preset-recommend": "13.0.7",
     "@tailwindcss/postcss": "4",
     "@types/node": "26",
