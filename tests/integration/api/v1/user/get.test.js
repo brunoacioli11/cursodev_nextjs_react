@@ -39,6 +39,7 @@ describe("GET to /api/v1/user", () => {
         username: userCreated.username,
         email: userCreated.email,
         password: userCreated.password,
+        features: [],
         created_at: userCreated.created_at.toISOString(),
         updated_at: userCreated.updated_at.toISOString(),
       });
