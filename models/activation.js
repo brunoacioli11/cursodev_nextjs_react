@@ -1,6 +1,8 @@
 import email from "@/infra/email";
 import database from "@/infra/database";
 import webServer from "@/infra/webserver";
+import { NotFoundError } from "@/infra/errors";
+import user from "@/models/user";
 
 const EXPIRATION_IN_MILLISECONDS = 60 * 15 * 1000;
 async function create(userId) {
@@ -40,12 +42,12 @@ async function sendEmailToUser(user, activationToken) {
   });
 }
 
-async function findOneByUserId(userId) {
-  const newToken = await runSelectQuery(userId);
+async function findOneValidById(tokenId) {
+  const newToken = await runSelectQuery(tokenId);
 
   return newToken;
 
-  async function runSelectQuery(userId) {
+  async function runSelectQuery(tokenId) {
     const results = await database.query({
       text: `
       SELECT
@@ -53,21 +55,65 @@ async function findOneByUserId(userId) {
       FROM
         user_activation_tokens
       WHERE
-        user_id = $1
+        id = $1
+        AND used_at IS NULL
+        AND expires_at > NOW()
       LIMIT
         1 
     ;`,
-      values: [userId],
+      values: [tokenId],
+    });
+
+    console.log(results.rows[0]);
+
+    if (results.rowCount == 0) {
+      throw new NotFoundError({
+        message: "Token is not valid",
+        action: "Register again",
+      });
+    }
+
+    return results.rows[0];
+  }
+}
+
+async function markTokenAsUsed(tokenId) {
+  const usedActivationToken = await runUpdateQuery(tokenId);
+
+  return usedActivationToken;
+
+  async function runUpdateQuery(tokenId) {
+    const results = await database.query({
+      text: `
+        UPDATE
+          user_activation_tokens
+        SET
+          used_at = timezone('utc',NOW()),
+          updated_at = timezone('utc',NOW())
+        WHERE
+          id = $1
+        RETURNING
+          *  
+      ;`,
+      values: [tokenId],
     });
 
     return results.rows[0];
   }
 }
 
+async function activateUserByUserId(userId) {
+  const createSessionsFeature = ["create:session"];
+  const activatedUser = await user.setFeatures(userId, createSessionsFeature);
+  return activatedUser;
+}
+
 const activation = {
   create,
   sendEmailToUser,
-  findOneByUserId,
+  findOneValidById,
+  markTokenAsUsed,
+  activateUserByUserId,
 };
 
 export default activation;
