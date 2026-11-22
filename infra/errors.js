@@ -101,7 +101,7 @@ export class UnauthorizedError extends Error {
       cause,
     });
     this.name = "UnauthorizedError";
-    this.action = action || "Log in ontinue";
+    this.action = action || "Log in to continue";
     this.statusCode = 401;
   }
 

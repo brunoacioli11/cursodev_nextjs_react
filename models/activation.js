@@ -64,8 +64,6 @@ async function findOneValidById(tokenId) {
       values: [tokenId],
     });
 
-    console.log(results.rows[0]);
-
     if (results.rowCount == 0) {
       throw new NotFoundError({
         message: "Token is not valid",
